@@ -1,0 +1,150 @@
+---
+title: "Lecture 1"
+format: html
+editor: visual
+---
+
+## Lecture 1: Course Overviwe + The Shell
+
+"Bash" 和 "Shell" 都与命令行界面和脚本编程有关，但它们之间存在一些区别：
+
+1.  **Shell**：
+    -   "Shell" 是一个广泛的术语，用于描述命令行界面和脚本编程的环境。
+    -   Shell 是一个命令解释器，它允许用户通过键入命令来与操作系统交互，执行各种任务，如文件操作、进程管理、环境变量设置等。
+    -   不同的操作系统可以使用不同的Shell。例如，Linux系统通常使用Bash（Bourne Again Shell），而Windows系统通常使用cmd.exe（命令提示符）或PowerShell。
+2.  **Bash**：
+    -   "Bash" 是一个特定的Shell程序，是Linux和Unix系统中最常见的Shell之一。
+    -   Bash 是Bourne Shell的扩展，它添加了许多有用的功能，如命令历史记录、命令自动完成、条件语句等。
+    -   Bash还支持脚本编程，允许用户编写Shell脚本来自动化任务和处理复杂的工作流程。
+
+因此，总结来说，"Shell" 是一个通用术语，用于描述命令行界面和脚本编程的环境，而"Bash" 是一种具体的Shell程序，它是Linux和Unix系统中最常见的Shell之一。在Linux系统中，人们通常使用术语"Bash"来表示命令行界面和脚本编程的工作环境。
+
+macOS Catalina（版本10.15）及更高版本默认使用的是Zsh（Z shell）作为交互式shell。在这些版本中，Zsh取代了之前的Bash作为默认用户shell。然而，如果您升级到Catalina或更高版本之前使用Bash的macOS，那么您的用户账户可能仍然使用Bash。
+
+Zsh是Bash的扩展版本，具有更多功能和改进，为用户提供了更现代和灵活的shell体验。您仍然可以使用Bash或其他shell，如果您更喜欢其他shell，可以通过使用`chsh`命令来更改默认shell。
+
+**ctrl + L** to clear. **ctrl + A** move cursor to the begining of the line **ctrl + E** move cursor to the end of the line
+
+`echo`: print out the arguments that you give it. 显示文本或者变量的值
+
+``` bash
+echo "Hello, World!"
+
+my_variable="Some text"
+echo $my_variable
+```
+
+`$PATH` environment path
+
+``` bash
+echo $PATH
+
+which echo
+where echo
+```
+
+`pwd` current working path/directory
+
+`cd` change path/directory
+
+``` bash
+cd ./home
+```
+
+`.` current path/directory
+
+`..` parental path/directory
+
+`ls` list the files in the current path/directory, it also can take path/directory as an argument to list the files under that path/directory. `\~` home path/directory. `-` the path/directory you were previously in.
+
+``` bash
+ls .
+cd ~
+cd ~/books
+cd -
+```
+
+`--help` help or example for the function
+
+``` bash
+ls --help
+```
+
+`ls -l` long format of files
+
+`mv` move files or rename files, it takes (at least) two arguments
+
+``` bash
+# this move file1 & 2 & 3 to dir1
+mv file1 file2 file3 dir1
+# this rename file1 to file2
+mv file1 file2
+# rename dir1 to dir2
+mv dir1 dir2
+```
+
+`cp` copy files, it takes two arguments
+
+`rm` remove a file, using '-r' remove a path/directory
+
+`rmdir` remove an empty path.
+
+`mkdir` create a new folder
+
+``` bash
+mkdir 'my photos'
+```
+
+`man` user manual of a function
+
+```         
+# in macos, use 'q' to quit. 
+man ls
+```
+
+`>` stream: output `<` stream: input `cat` print content of a file
+
+``` bash
+# print hello, and write it into hello txt
+echo hello > hello.txt
+# or using cat instead of echo
+cat hello > hello.txt
+# print content from hello.txt, sending hello.txt to function cat
+cat < hello.txt
+# this is the same as 
+cat hello.txt
+# cat < hello.txt load content of hello.txt, and > hello2,txt output the content to hello2.txt
+cat < hello.txt > hello2.txt
+# which is the same as
+cat hello.txt > hello2.txt
+```
+
+`>>` append instead of overwrite.
+
+``` bash
+cat < hello.txt >> hello2.txt
+```
+
+`\|` pipe, it takes the output from the left, and use it as the input of the right
+
+``` bash
+ls -l |tail -n1 > ls.txt
+```
+
+`sudo` do things like root user or superuser
+
+`#` run this as root, and `$` means it is not root user
+
+`sudo su` get the shell for root users `exit` exit
+
+`tee` used to read from standard input (usually data piped or redirected from another command) and write the data both to standard output (typically the terminal) and to one or more files simultaneously
+
+`open` open a file with appropriate program.
+
+`touch` create an empty file and modify the timestamp
+
+`./somehting` to run something instead of just 'something'
+
+```{console}
+
+```
