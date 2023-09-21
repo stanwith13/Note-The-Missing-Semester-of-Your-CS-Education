@@ -6,7 +6,7 @@ editor: visual
 
 ## Lecture 2: Shell Tools and Scripting
 
-https://missing-semester-cn.github.io/2020/shell-tools/
+<https://missing-semester-cn.github.io/2020/shell-tools/>
 
 `=` 赋值
 
@@ -180,7 +180,11 @@ find . -name '*.png' -exec convert {} {}.jpg \;
 
 所以，命令的作用是查找当前目录及其子目录中的所有 `.tmp` 文件，并将它们逐个删除。请小心使用这个命令，因为删除文件是不可恢复的操作，一旦删除就无法恢复文件内容。确保你真的想要删除这些文件。
 
-`fd` is another external tool you can use to replace `find`.
+`locate` Find filenames quickly.
+
+`fd` is another external tool you can use to replace `find`. install using `brew install fd`.
+
+`ripgrep` is another external tool you can use to replace `grep`. install using `brew install ripgrep`.
 
 ``` bash
 rg -t py 'import requests'
@@ -215,3 +219,176 @@ find . -type f -name '*.py' -exec grep -H 'import requests' {} \;
 -   `-exec grep -H 'import requests' {} \;`：这部分使用 `-exec` 选项来执行 `grep` 命令，它会在找到的每个 Python 文件上执行一次。`{}` 会被替换为 `find` 命令找到的文件名，`-H` 选项用于显示文件名。所以，`grep -H 'import requests' {}` 会搜索包含 `'import requests'` 的行，并显示匹配的行和文件名。
 
 这个命令会在当前目录及其子目录中查找所有 Python 文件，并在这些文件中搜索包含 `'import requests'` 的行，并显示匹配的内容和文件名。
+
+``` bash
+# 查找所有使用了 requests 库的文件
+rg -t py 'import requests'
+# 查找所有没有写 shebang 的文件（包含隐藏文件）
+rg -u --files-without-match "^#!"
+# 查找所有的foo字符串，并打印其之后的5行
+rg foo -A 5
+# 打印匹配的统计信息（匹配的行和文件的数量）
+rg --stats PATTERN
+```
+
+`history` to print all commands history
+
+``` bash
+#search for all commands containing 'install'
+history | grep 'install'
+```
+
+**Ctrl+R** 您可以使用 **Ctrl+R** 对命令历史记录进行回溯搜索。敲 **Ctrl+R** 后您可以输入子串来进行匹配，查找历史命令行。 反复按下就会在所有搜索结果中循环。在 zsh 中，使用方向键上或下也可以完成这项工作。
+
+**fzf**
+
+`-R` recursively do things to the sub-directory.
+
+**tree** tree looking file structure, `brew install tree` and `tree`
+
+在Bash中，`$HOME` 是一个特殊的环境变量，用于表示当前用户的主目录（home directory）。具体来说，它包含了用户的主目录的绝对路径。
+
+主目录是用户在登录时默认所在的目录，通常用于存储用户的个人文件和配置文件。当你在Bash中使用`cd`命令而不指定目标目录时，系统会自动将你切换到主目录。
+
+例如，如果你的用户名是 "user1"，那么 `$HOME` 可能会包含类似于 `/home/user1`（在Linux系统中）或 `/Users/user1`（在macOS中）的路径。你可以在Bash中使用 `$HOME` 来引用主目录路径，例如：
+
+``` bash
+cd $HOME
+```
+
+上述命令将切换到你的主目录。
+
+`$HOME` 在脚本编程和配置文件中也非常有用，因为它允许你引用用户的主目录，而无需显式指定用户名。这样可以增加脚本的可移植性，因为不同用户的主目录路径可能不同。
+
+``` bash
+ #!/usr/bin/env bash
+
+ n=$(( RANDOM % 100 ))
+
+ if [[ n -eq 42 ]]; then
+     echo "Something went wrong"
+     >&2 echo "The error was using magic numbers"
+     exit 1
+ fi
+
+ echo "Everything went according to plan"
+```
+
+这个命令用于在Bash脚本中生成一个随机数，并将其存储在变量 `n` 中。让我解释一下各个部分：
+
+-   `$(( ... ))`：这是Bash中用于进行算术运算的语法。在这里，它用于计算括号中的表达式的值。
+
+-   `RANDOM`：这是一个特殊的环境变量，在Bash中用于生成随机数。`RANDOM` 的值是一个介于0到32767之间的随机整数。
+
+-   `% 100`：这部分是对 `RANDOM` 生成的随机数进行取余操作，以将其限制在0到99之间。
+
+所以，`n=$(( RANDOM % 100 ))` 的作用是生成一个介于0到99之间的随机整数，并将其存储在变量 `n` 中。你可以随后在脚本中使用变量 `n` 来进行各种操作，例如根据这个随机数执行不同的逻辑。这在编写随机生成数值的脚本时非常有用。
+
+这是一个Bash脚本的示例，它执行以下操作：
+
+1.  生成一个介于0到99之间的随机整数，并将其存储在变量 `n` 中。
+2.  使用条件语句检查变量 `n` 是否等于42。
+3.  如果 `n` 等于42，则输出错误消息并退出脚本。
+4.  如果 `n` 不等于42，则输出成功消息。
+
+这个脚本的主要特点是在检查 `n` 的值时使用了条件语句，并且如果出现特定条件（即 `n` 等于42）则输出错误消息，并使用 `exit 1` 终止脚本执行。这种做法是一种良好的编程实践，因为它提高了脚本的可读性和可维护性，避免了硬编码的"魔数"（magic numbers）。
+
+这个脚本可以根据 `n` 的值采取不同的操作，具体取决于条件语句的评估结果。如果 `n` 不等于42，它将输出 "Everything went according to plan"；如果 `n` 等于42，则输出 "Something went wrong" 和错误消息 "The error was using magic numbers"。
+
+这只是一个示例脚本，你可以根据你的需求和条件来修改脚本中的逻辑和消息。
+
+`>&2` 是Bash中的一种重定向语法，它用于将输出（通常是标准错误输出stderr）发送到文件描述符2，也就是标准错误通道。
+
+在Bash中，文件描述符描述了打开文件的引用，其中0代表标准输入（stdin），1代表标准输出（stdout），2代表标准错误（stderr）。所以，`>&2` 表示将输出重定向到标准错误。
+
+这个语法通常用于错误消息的输出。例如，在你的脚本中的这一行：
+
+``` bash
+>&2 echo "The error was using magic numbers"
+```
+
+它的作用是将字符串 "The error was using magic numbers" 发送到标准错误（stderr），而不是标准输出（stdout）。这样做是为了将错误消息与标准输出消息区分开来，因为标准错误通常用于记录脚本的错误和警告信息，而标准输出用于正常的输出。
+
+-   使用 while 循环完成
+
+``` bash
+ #!/usr/bin/env bash
+ count=0
+ echo > out.log
+
+ while true
+ do
+     ./buggy.sh &>> out.log
+     if [[ $? -ne 0 ]]; then
+         cat out.log
+         echo "failed after $count times"
+         break
+     fi
+     ((count++))
+
+ done
+```
+
+-   使用 for 循环完成
+
+``` bash
+ #!/usr/bin/env bash
+ echo > out.log
+ for ((count=0;;count++))
+ do
+     ./buggy.sh &>> out.log
+     if [[ $? -ne 0 ]]; then
+         echo "failed after $count times"
+         break
+
+     fi
+ done
+```
+
+-   使用 until 完成
+
+``` bash
+ #!/usr/bin/env bash
+ count=0
+ ./buggy.sh &>> out.log
+ until [[ "$?" -ne 0 ]];
+ do
+     count=$((count+1))
+     ./buggy.sh &>> out.log
+ done
+
+ echo "failed after $count runs"
+```
+
+执行测试脚本debug.sh,并验证脚本结果的正确性
+
+``` bash
+ ~$ ./debug.sh
+```
+
+xargs
+
+Execute a command with piped arguments coming from another command, a file, etc. The input is treated as a single block of text and split into separate pieces on spaces, tabs, newlines and end-of-file. More information: <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/xargs.html>.
+
+-   Run a command using the input data as arguments: arguments_source \| xargs command
+
+-   Run multiple chained commands on the input data: arguments_source \| xargs sh -c "command1 && command2 \| command3"
+
+-   Delete all files with a `.backup` extension (`-print0` uses a null character to split file names, and `-0` uses it as delimiter): find . -name '\*.backup' -print0 \| xargs -0 rm -v
+
+-   Execute the command once for each input line, replacing any occurrences of the placeholder (here marked as `_`) with the input line: arguments_source \| xargs -I \_ command \_ optional_extra_arguments
+
+-   Parallel runs of up to `max-procs` processes at a time; the default is 1. If `max-procs` is 0, xargs will run as many processes as possible at a time: arguments_source \| xargs -P max-procs command
+
+```bash
+mkdir html_root
+cd html_root
+touch {1..10}.html
+mkdir html
+cd html
+touch xxxx.html
+```
+
+```bash
+find html_root -name "*.html" -print0 | xargs -0 tar vcf html.zip
+```

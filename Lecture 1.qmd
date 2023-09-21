@@ -6,6 +6,8 @@ editor: visual
 
 ## Lecture 1: Course Overviwe + The Shell
 
+<https://missing-semester-cn.github.io/2020/course-shell/>
+
 "Bash" 和 "Shell" 都与命令行界面和脚本编程有关，但它们之间存在一些区别：
 
 1.  **Shell**：
